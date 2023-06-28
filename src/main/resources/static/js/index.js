@@ -107,9 +107,9 @@ function llenarTabla(data) {
 				const s = document.createTextNode('\xA0\xA0\xA0');
 
 				e.appendChild(et);
-				e.href = "/edit?id=" + data[0][col[0]];
+				e.href = "/edit?id=" + data[i][col[0]];
 				d.appendChild(ed);
-				d.href = "/delete/" + data[0][col[0]];
+				d.href = "/delete/" + data[i][col[0]];
 				//document.body.appendChild(a);
 				let tabCell = tr.insertCell(-1);
 				tabCell.appendChild(e);
