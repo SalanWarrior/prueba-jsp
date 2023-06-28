@@ -56,10 +56,8 @@ function editaProducto() {
 		})
 			.then(response => {
 				if (response.ok) {
-					// La respuesta fue exitosa (código 200-299)
 					window.location.href = "/";
 				} else {
-					// La respuesta tuvo un error
 					console.error('Error en la respuesta:', response.status);
 				}
 			})

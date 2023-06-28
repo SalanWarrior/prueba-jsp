@@ -3,7 +3,10 @@ package com.alan.pruebajsp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("data")
 public class AppDataController {
+
+	private static Logger LOG = LoggerFactory.getLogger(AppDataController.class);
 
 	@Autowired
 	private ProductService service;
@@ -49,9 +54,18 @@ public class AppDataController {
 
 	@PutMapping("/editar")
 	public HttpStatus showEditProductPage(@RequestBody Product product) {
-		service.save(product);
+		HttpStatus httpStatus;
 
-		return HttpStatus.OK;
+		try {
+			service.save(product);
+			httpStatus = HttpStatus.OK;
+			LOG.warn("Inserccion Exitosa");
+
+		} catch (DataIntegrityViolationException e) {
+			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			LOG.error(e.getStackTrace().toString());
+		}
+		return httpStatus;
 	}
 
 	@GetMapping("/bandejaprecio/{precio}")
