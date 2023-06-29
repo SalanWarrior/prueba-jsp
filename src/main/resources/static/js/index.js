@@ -20,12 +20,26 @@ function asignarEventos() {
 		getByBrand(brand);
 	});
 
-	document.getElementById("findHihgPrice").addEventListener("click", function(event) {
+	document.getElementById("brandFind").addEventListener("keyup", function(event) {
+		if (event.keyCode === 13 || event.key === "Enter") {
+			let brand = document.getElementById("brandFind").value;
+			getByBrand(brand);
+		}
+	});
+
+	document.getElementById("findHighPrice").addEventListener("click", function(event) {
 		let price = document.getElementById("highPrice").value;
 		if (price === null || price.trim() === "") {
 			price = '0';
 		}
 		getByHighPrice(price);
+	});
+
+	document.getElementById("highPrice").addEventListener("keyup", function(event) {
+		if (event.keyCode === 13 || event.key === "Enter") {
+			let price = document.getElementById("highPrice").value;
+			getByHighPrice(price);
+		}
 	});
 
 	var price = document.getElementById("highPrice");
@@ -75,8 +89,9 @@ function llenarTabla(data) {
 	}
 
 	const table = document.createElement("table");
-	table.setAttribute("border", "1");
-	table.setAttribute("cellpadding", "10");
+	//table.setAttribute("border", "1");
+	//table.setAttribute("cellpadding", "10");
+	table.className = "table table-striped table-hover";
 
 	let tr = table.insertRow(-1);                   // table row.
 
@@ -103,14 +118,16 @@ function llenarTabla(data) {
 
 			if (j + 1 == col.length && !(data[i][col[j]] === null || data[i][col[j]] === "")) {
 				var e = document.createElement('a'), d = document.createElement('a');
-				var et = document.createTextNode("edit"), ed = document.createTextNode("delete");
+				var et = document.createTextNode("Edit"), ed = document.createTextNode("Delete");
 				const s = document.createTextNode('\xA0\xA0\xA0');
 
 				e.appendChild(et);
 				e.href = "/edit?id=" + data[i][col[0]];
+				e.className = "btn btn-primary";
 				d.appendChild(ed);
 				d.href = "/delete/" + data[i][col[0]];
-				//document.body.appendChild(a);
+				d.className = "btn btn-danger";
+
 				let tabCell = tr.insertCell(-1);
 				tabCell.appendChild(e);
 				tabCell.appendChild(s);
